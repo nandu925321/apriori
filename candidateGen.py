@@ -19,7 +19,7 @@ def candidateGen (Fkprev):
                     pc = p.compressed()
                     p.mask[k] = False
                     #print pc
-                    if any(np.equal(npFkprev,pc).all(1)) == False:
+                    if (npFkprev[...]==pc).all(1).any() == False:
                         include = False
                 if include == True:
                     C.append(c.tolist())
