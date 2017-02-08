@@ -26,7 +26,6 @@ def candidateGen (Fkprev, MIS, sup, MSD):
     return C
 
 
-#where L is the output from InitPass function, countList is the list of counts of all items, MIS is the 
 def level2CandidateGen (L, MIS, sup, MSD):
     C2 = []
     for i in range(len(L)):
