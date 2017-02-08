@@ -9,7 +9,7 @@ Created on Feb 7, 2017
 import re
 import operator
 
-def read_files():
+def read_files(inputFile, parameterFile):
     # file_object = open("D:/Homeworks semester_one/Data Mining and Text Mining/One/Inputs/input-data.txt","r")
 #     print "Name of the file: ", file_object.name -- remove this stuff only to check i/o 
 #     print "Closed or not : ", file_object.closed
@@ -20,7 +20,7 @@ def read_files():
     mis_values = []
     ret_dict = {}
     
-    with open("D:/Homeworks semester_one/Data Mining and Text Mining/One/Inputs/input-data.txt", "r") as f:
+    with open(inputFile, "r") as f:
         data = f.readlines()
         for line in data:
             linecounter = linecounter + 1
@@ -32,7 +32,9 @@ def read_files():
     # consider using other alternatives if the array size is large
     # http://stackoverflow.com/questions/952914/making-a-flat-list-out-of-list-of-lists-in-python
     #print support_count
+    ret_dict['I'] = [x for x in set(support_count)]
     support_count = [[x, support_count.count(x)] for x in set(support_count)]
+
     # use other methods if this crashes http://stackoverflow.com/questions/2600191/how-can-i-count-the-occurrences-of-a-list-item-in-python
     # print support_count
     support_count.sort(cmp=None, key=None, reverse=False)
@@ -40,10 +42,17 @@ def read_files():
     # print linecounter
     ret_dict["C_1"] = support_count
     ret_dict['N'] = linecounter
+    sup = {}
+    for x in support_count:
+        sup[x[0]]=float(x[1])/ret_dict['N']
+
+    ret_dict['sup'] = sup
+    print "I :"
+    print ret_dict["I"]
     # print return_list
     spa = []
     
-    with open ("D:/Homeworks semester_one/Data Mining and Text Mining/One/Inputs/parameter-file.txt", "r") as r:
+    with open (parameterFile, "r") as r:
         x = 0
         info = r.readlines()
         
@@ -114,5 +123,3 @@ def read_files():
     #print(len(support_count)) 
     print ret_dict          
     return ret_dict
-
-read_files()
