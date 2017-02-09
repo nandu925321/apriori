@@ -47,8 +47,6 @@ def read_files(inputFile, parameterFile):
         sup[x[0]]=float(x[1])/ret_dict['N']
 
     ret_dict['sup'] = sup
-    print "I :"
-    print ret_dict["I"]
     # print return_list
     spa = []
     
@@ -120,6 +118,5 @@ def read_files(inputFile, parameterFile):
         mis_d[m[0]] = m[1]
     # use 0 to sort by keys
     ret_dict["MIS"]= mis_d
-    #print(len(support_count)) 
-    print ret_dict          
+    #print(len(support_count))
     return ret_dict
