@@ -40,9 +40,16 @@ print "--------------------------------------------------------------"
 
 mis_values_sorted = input_data["MIS"]
 support_values = input_data["C_1"]
-C=[]
-C.insert(0, input_data.get("C_1"))
+supp_vals_dict={}
+for sv in support_values:
+    supp_vals_dict[sv[0]] = sv[1]
+print "support_vals",supp_vals_dict[70]
+print "--------------------------------------------------------------"
+Ctemp_=[]
 dict_c = {}
+Ctemp_ = input_data.get("C_1")
+for c in Ctemp_:
+    dict_c[c[0]]=c[1]
 L = []
 
 # sort and fill L
@@ -56,10 +63,12 @@ for i in I:
             
 print "*************************************************************"
 print L
+print "dict first set ",dict_c
 print "*************************************************************"
 
 # Main implementation of for loop
 Fkprev = [[x] for x in L if sup[x] >= MIS[x]]
+F1=Fkprev
 print "Fkprev: ", Fkprev
 F= []
 C = []
@@ -113,4 +122,51 @@ while True:
     else:
              
         break
-print F
+
+# F has an empty list in the end trimming that list
+F.pop()
+print "F after popping", F
+def write_to_file(F,C,TC,supp_vals_dict,dict_c):
+
+    pen = open("output.txt","w")
+    #print frequent 1-itemsets
+    pen.write("Frequent 1-item sets:")
+    pen.write("\n\n\t")
+    # Writing frequent 1 item sets to file 
+    for f1 in F1:
+        pen.write(str(supp_vals_dict.get(f1[0]))+" : "+"{"+str(f1[0])+"}")
+        
+        pen.write("\n")
+        pen.write("\t")
+    pen.write("\n\tTotal number of frequent 1-itemsets = "+str(len(F1))+"\n")
+    # Writing > 1 frequent item sets
+    dc_count= 0 # this is to retrieve dicts
+    k=2
+    for f2 in F:
+        pen.write("\nFrequent "+str(k)+"-item sets:")
+        pen.write("\n\n\t")
+        my_d = TC[dc_count]
+        for f in f2:
+            if (my_d.get(tuple(f)) != None):
+                pen.write(str(my_d.get(tuple(f)))+" : "+"{"+str(f).strip('[]')+"}")
+                #find the tail count here
+                tail=""
+                if k==2:
+                    tail = str(dict_c.get(f[1]))
+                else:
+                    tail = str(my_d.get(tuple(f[1:])))
+                pen.write("\nTail count = "+tail)        
+                pen.write("\n")
+                pen.write("\t")
+                
+
+                #print str(my_d.get(tuple(f))) +str(tuple(f))+"tuple count" 
+        pen.write("\n\tTotal number of frequent "+str(k)+"-itemsets = "+str(len(f2))+"\n")
+        dc_count = dc_count+1
+        k = k+1
+    print F
+            
+
+
+
+write_to_file(F,C,TC,supp_vals_dict,dict_c)
